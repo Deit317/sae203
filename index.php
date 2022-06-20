@@ -7,31 +7,30 @@
 </head>
 <body>
     <section>
-        <!-- <?php
+        <?php
             echo "<p>Il est " . date('h:i:s') . '.</p>'
-        ?> -->
+        ?>
 
-        <h1>Inscription</h1>
+        <h1 id="titre">Inscription</h1>
 
-        <form id="connexion">
+        <form id="connexion" method="post">
             <label for="c-nom">Nom d'utilisateur</label>
             <input type="text" id="c-nom">
             <label for="c-mdp">Mot de passe</label>
             <input type="password" id="c-mdp">
         </form>
 
-        <form id="inscription">
+        <form id="inscription" method="post">
             <label for="i-nom">Nom d'utilisateur</label>
             <input type="text" id="i-nom">
             <label for="i-mdp">Mot de passe</label>
             <input type="password" id="i-mdp">
             <label for="i-cmdp">Confirmation du mot de passe</label>
             <input type="password" id="i-cmdp">
-<!--            <button id="i-valider" onclick="<?php existe($_GET['i-nom']); ?>">S'inscrire</button>-->
-            <button id="i-valider">S'inscrire</button>
+            <button id="i-valider" onclick="<?php inscription($_POST['i-nom'], $_POST['i-mdp'], $_POST['i-cmpd']); ?>">S'inscrire</button>
         </form>
 
-        <!-- <?php
+        <?php
             $link = mysqli_connect('10.1.2.3', 'root', 'Lannion') or die ('Error connecting to mysql: ' . mysqli_error($link).'\r\n');
 
             function inscription($nom, $mdp, $cmdp) {
@@ -83,7 +82,7 @@
                     echo '<p class="error">Identifiants incorrects.</p>';
                 }
             }
-        ?> -->
+        ?>
     </section>
 </body>
 </html>
