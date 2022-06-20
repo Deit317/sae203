@@ -7,9 +7,11 @@
 </head>
 <body>
     <section>
-        <?php
+        <!-- <?php
             echo "<p>Il est " . date('h:i:s') . '.</p>'
-        ?>
+        ?> -->
+
+        <h1>Inscription</h1>
 
         <form id="connexion">
             <label for="c-nom">Nom d'utilisateur</label>
@@ -25,10 +27,11 @@
             <input type="password" id="i-mdp">
             <label for="i-cmdp">Confirmation du mot de passe</label>
             <input type="password" id="i-cmdp">
-            <input type="button" onclick="<?php existe($_GET['i-nom']); ?>">
+<!--            <button id="i-valider" onclick="<?php existe($_GET['i-nom']); ?>">S'inscrire</button>-->
+            <button id="i-valider">S'inscrire</button>
         </form>
 
-        <?php
+        <!-- <?php
             $link = mysqli_connect('10.1.2.3', 'root', 'Lannion') or die ('Error connecting to mysql: ' . mysqli_error($link).'\r\n');
 
             function inscription($nom, $mdp, $cmdp) {
@@ -80,7 +83,7 @@
                     echo '<p class="error">Identifiants incorrects.</p>';
                 }
             }
-        ?>
+        ?> -->
     </section>
 </body>
 </html>
