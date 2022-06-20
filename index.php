@@ -29,13 +29,15 @@
         </form>
 
         <?php
+            $link = mysqli_connect('10.1.2.3', 'root', 'Lannion') or die ('Error connecting to mysql: ' . mysqli_error($link).'\r\n');
+
             function inscription($nom, $mdp, $cmdp) {
+                global $link;
+
                 if ($mdp != $cmdp) {
                     echo '<p class="error">Les mots de passe ne correspondent pas.</p>';
                     return;
                 }
-
-                $link = mysqli_connect('10.1.2.3', 'root', 'Lannion') or die ('Error connecting to mysql: ' . mysqli_error($link).'\r\n');
 
                 if (!($result = mysqli_query($link, 'select * from utilisateurs where nom = ' . $nom . ';'))) {
                     printf("Error: %s\n", mysqli_error($link));
@@ -56,6 +58,26 @@
                 }
                 else {
                     echo '<p class="success">Inscription reussie.</p>';
+                }
+            }
+
+            function connexion($nom, $mdp) {
+                global $link;
+
+                if (!($result = mysqli_query($link, 'select * from utilisateurs where nom = ' . $nom . ' and mdp = ' . $mdp . ';'))) {
+                    printf("Error: %s\n", mysqli_error($link));
+                }
+
+                $trouve = false;
+                while ($row = mysqli_fetch_row($result)) {
+                    $trouve = true;
+                }
+
+                if ($trouve) {
+                    echo '<p class="success">Inscription reussie.</p>';
+                }
+                else {
+                    echo '<p class="error">Identifiants incorrects.</p>';
                 }
             }
         ?>

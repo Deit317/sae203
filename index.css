@@ -15,3 +15,11 @@ form {
 #inscription {
     display: none;
 }
+
+.error {
+    color: darkred;
+}
+
+.success {
+    color: green;
+}
