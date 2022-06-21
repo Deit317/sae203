@@ -6,9 +6,67 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
+    <a href="secret/supprimer.html">Espace prive</a>
+
     <section>
         <?php
-            echo "<p>Il est " . date('h:i:s') . '.</p>'
+        echo "<p>Il est " . date('h:i:s') . '.</p>'
+
+        $link = mysqli_connect('10.1.2.3', 'root', 'lannion') or die ('Error connecting to mysql: ' . mysqli_error($link).'\r\n');
+
+        if (!mysqli_select_db($link, 'projet')) {
+            printf("Erreur : impossible de selectionner la base.");
+        }
+
+        function inscription($nom, $mdp, $cmdp) {
+            global $link;
+
+            if ($mdp != $cmdp) {
+                echo '<p class="error">Les mots de passe ne correspondent pas.</p>';
+                return;
+            }
+
+            if (!($result = mysqli_query($link, 'select * from utilisateurs where nom = ' . $nom . ';'))) {
+                printf("Error: %s\n", mysqli_error($link));
+            }
+
+            $trouve = false;
+            while ($row = mysqli_fetch_row($result)) {
+                $trouve = true;
+            }
+
+            if ($trouve) {
+                echo '<p class="error">Un utilisateur avec ce nom existe deja.</p>';
+                return;
+            }
+
+            if (!($result = mysqli_query($link, 'insert into utilisateurs values (' . $nom . ', ' . $mdp . ')'))) {
+                printf("Error: %s\n", mysqli_error($link));
+            }
+            else {
+                echo '<p class="success">Inscription reussie.</p>';
+            }
+        }
+
+        function connexion($nom, $mdp) {
+            global $link;
+
+            if (!($result = mysqli_query($link, 'select * from utilisateurs where nom = ' . $nom . ' and mdp = ' . $mdp . ';'))) {
+                printf("Error: %s\n", mysqli_error($link));
+            }
+
+            $trouve = false;
+            while ($row = mysqli_fetch_row($result)) {
+                $trouve = true;
+            }
+
+            if ($trouve) {
+                echo '<p class="success">Inscription reussie.</p>';
+            }
+            else {
+                echo '<p class="error">Identifiants incorrects.</p>';
+            }
+        }
         ?>
 
         <h1 id="titre">Inscription</h1>
@@ -29,60 +87,6 @@
             <input type="password" id="i-cmdp">
             <button id="i-valider" onclick="<?php inscription($_POST['i-nom'], $_POST['i-mdp'], $_POST['i-cmpd']); ?>">S'inscrire</button>
         </form>
-
-        <?php
-            $link = mysqli_connect('10.1.2.3', 'root', 'Lannion') or die ('Error connecting to mysql: ' . mysqli_error($link).'\r\n');
-
-            function inscription($nom, $mdp, $cmdp) {
-                global $link;
-
-                if ($mdp != $cmdp) {
-                    echo '<p class="error">Les mots de passe ne correspondent pas.</p>';
-                    return;
-                }
-
-                if (!($result = mysqli_query($link, 'select * from utilisateurs where nom = ' . $nom . ';'))) {
-                    printf("Error: %s\n", mysqli_error($link));
-                }
-
-                $trouve = false;
-                while ($row = mysqli_fetch_row($result)) {
-                    $trouve = true;
-                }
-
-                if ($trouve) {
-                    echo '<p class="error">Un utilisateur avec ce nom existe deja.</p>';
-                    return;
-                }
-
-                if (!($result = mysqli_query($link, 'insert into utilisateurs values (' . $nom . ', ' . $mdp . ')'))) {
-                    printf("Error: %s\n", mysqli_error($link));
-                }
-                else {
-                    echo '<p class="success">Inscription reussie.</p>';
-                }
-            }
-
-            function connexion($nom, $mdp) {
-                global $link;
-
-                if (!($result = mysqli_query($link, 'select * from utilisateurs where nom = ' . $nom . ' and mdp = ' . $mdp . ';'))) {
-                    printf("Error: %s\n", mysqli_error($link));
-                }
-
-                $trouve = false;
-                while ($row = mysqli_fetch_row($result)) {
-                    $trouve = true;
-                }
-
-                if ($trouve) {
-                    echo '<p class="success">Inscription reussie.</p>';
-                }
-                else {
-                    echo '<p class="error">Identifiants incorrects.</p>';
-                }
-            }
-        ?>
     </section>
 </body>
 </html>
